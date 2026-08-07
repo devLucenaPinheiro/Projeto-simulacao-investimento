@@ -1,0 +1,31 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+.grafico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  min-height: 350px;
+  padding: 1.5vh;
+
+  @include respond-below($breakpoint-xl) {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.resultado {
+  width: 100%;
+  max-width: 600px;
+  height: 350px;
+  padding: 20px;
+  background-color: $color-background-light;
+  border-radius: 8px;
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+

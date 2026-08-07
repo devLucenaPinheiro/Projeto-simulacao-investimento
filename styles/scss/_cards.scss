@@ -1,0 +1,70 @@
+@use './variables' as *;
+
+.simulation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  gap: 1.5rem;
+  width: min(1180px, calc(100% - 2rem));
+  margin: -5rem auto 4rem;
+  position: relative;
+}
+
+.form-column,
+.result-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-card,
+.result-card {
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: $color-surface;
+  box-shadow: $shadow-card;
+}
+
+.form-card {
+  padding: 1.5rem;
+}
+
+.result-card {
+  position: sticky;
+  top: 1rem;
+  padding: 1.5rem;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  p {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+  }
+}
+
+.section-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: $color-primary-light;
+  color: $color-primary-dark;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.chart-wrapper {
+  position: relative;
+  min-height: 380px;
+}

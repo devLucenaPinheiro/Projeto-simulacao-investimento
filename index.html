@@ -5,18 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de investimentos</title>
     <link rel="stylesheet" href="styles/style.css">
-    <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300&family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script type="module" src="src/app.js"></script>
 </head>
-<body onload="buscarTaxas()">
-    <header><h1 style="padding: 30px 1px;">Calculadora de investimentos</h1></header>
+<body>
+    <header class="site-header">
+  <div class="header-content">
+    <a class="brand" href="./">
+      <span class="brand-mark">R$</span>
+      <span>InvestSimula</span>
+    </a>
+
+    <span class="data-status">
+      Dados econômicos atualizados
+    </span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="eyebrow">PLANEJAMENTO FINANCEIRO</span>
+
+    <h1>
+      Simule o crescimento
+      <span>dos seus investimentos</span>
+    </h1>
+
+    <p>
+      Compare diferentes produtos de renda fixa considerando aportes,
+      prazo e indicadores econômicos.
+    </p>
+  </div>
+</section>
     <main>
     <div class="container">
-        <div class="texto"><p>Insira os valores</p></div>
+        <div class=".texto"><p>Insira os valores</p></div>
             <div class="input-grafico">
                 <div class="inputs">
                     <div class="inputs-1">
@@ -45,7 +72,7 @@
                         </div>
                         <div class="item-input-2"><label for="cdi">CDI (a.a.) <span class="data-cdi">ℹ️</span></label>
                             <input type="number" id="cdi" name="cdi" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                        </div class="item-input-2">
+                        </div>
                         <div class="item-input-2"><label for="ipca">IPCA (a.m.) <span class="data-ipca">ℹ️</span></label>
                             <input type="number" id="ipca" name="ipca" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
                             <span id="data-ipca" class="data-atualizacao"></span>
@@ -71,199 +98,10 @@
                     <div><p>Estes são os parâmetros padrões aplicados na sua simulação. Você pode ajustá-los e recalcular para uma simulação mais avançada. (Todos os valores são fornecidos pela API do Banco Central do Brasil)</p></div>
                 </div>
                 <div class="grafico">
-                    <div class="resultado">
-                        <canvas id="graficoRendimento" style="width: 100%; height: 100%;"></canvas>
-                    <script>
-let grafico;
-async function buscarTaxas() {
-    try {
-        const urls = {
-            selic: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033",
-            cdi: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033",
-            ipca: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11426/dados?formato=json",
-            tesouroIpca: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json",
-            tr: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.226/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033",
-            poupanca: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.195/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033"
-        };
-
-        async function fetchTaxa(url) {
-    const response = await fetch(url)
-    const data = await response.json()
-    const valor = data[data.length - 1]?.valor
-    const dataAtualizacao = data[data.length - 1]?.data
-    return { valor: parseFloat(valor), data: dataAtualizacao }
-}
-
-        const selic = await fetchTaxa(urls.selic)
-        document.getElementById('selic').value = isNaN(selic.valor) ? "N/A" : selic.valor.toFixed(2)
-        document.querySelector('.data-selic').title = `Atualizado em: ${selic.data}`
-
-        const cdi = await fetchTaxa(urls.cdi)
-        document.getElementById('cdi').value = isNaN(cdi.valor) ? "N/A" : cdi.valor.toFixed(2)
-        document.querySelector('.data-cdi').title = `Atualizado em: ${cdi.data}`
-
-        const ipca = await fetchTaxa(urls.ipca)
-        document.getElementById('ipca').value = isNaN(ipca.valor) ? "N/A" : ipca.valor.toFixed(2)
-        document.querySelector('.data-ipca').title = `Atualizado em: ${ipca.data}`
-
-        const tesouroIpca = await fetchTaxa(urls.tesouroIpca)
-        document.getElementById('tesouro-ipca').value = isNaN(tesouroIpca.valor) ? "N/A" : tesouroIpca.valor.toFixed(2)
-        document.querySelector('.data-tesouroIpca').title = `Atualizado em: ${tesouroIpca.data}`
-
-        const tr = await fetchTaxa(urls.tr)
-        document.getElementById('tr').value = isNaN(tr.valor) ? "N/A" : tr.valor.toFixed(4)
-        document.querySelector('.data-tr').title = `Atualizado em: ${tr.data}`
-
-        const poupanca = await fetchTaxa(urls.poupanca)
-        document.getElementById('poupanca').value = isNaN(poupanca.valor) ? "N/A" : poupanca.valor.toFixed(4)
-        document.querySelector('.data-poupanca').title = `Atualizado em: ${poupanca.data}`
-    } catch (error) {
-        console.error("Erro ao buscar as taxas de juros:", error)
-    }
-}
-
-function inicializarGrafico() {
-    const ctx = document.getElementById('graficoRendimento').getContext('2d')
-grafico = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Tesouro Selic','Tesouro IPCA','Poupança','Rentabilidade CDB','Rentabilidade Fundo Di', 'Tesouro prefixado'],
-        datasets: [{
-            label: 'Rendimento Estimado (R$)',
-            data: [0, 0, 0, 0, 0, 0],
-            borderWidth: 1,
-            backgroundColor: '#4FA153',
-            borderColor: '#4FA153'
-        }]
-    },
-    options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                beginAtZero: true
-            },
-            y: {
-                type: 'category'
-            }
-        },
-        plugins: {
-            datalabels: {
-                anchor: 'center',
-                align: 'end',
-                color: '#000',
-                formatter: function formatarValor(valor) {
-    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-}
-                
-            }
-        }
-    },
-    plugins: [ChartDataLabels]
-})
-}
-
-function calcularImpostoRenda(lucro, meses) {
-        let taxaIR;
-        if (meses <= 6) {
-            taxaIR = 0.225;
-        } else if (meses <= 12) {
-            taxaIR = 0.2
-        } else if (meses <= 24) {
-            taxaIR = 0.175
-        } else {
-            taxaIR = 0.15
-        }
-        return lucro * taxaIR
-    }
-
-    function calcularTesouroPrefixado(inicial, mensal, duracao, taxaPrefixada) {
-    const taxaMensal = Math.pow(1 + taxaPrefixada, 1 / 12) - 1
-
-    const montanteInicial = inicial * Math.pow(1 + taxaMensal, duracao)
-    const montanteAportes = mensal * ((Math.pow(1 + taxaMensal, duracao) - 1) / taxaMensal)
-
-    const montanteTotal = montanteInicial + montanteAportes
-    const lucroBruto = montanteTotal - (inicial + mensal * duracao)
-
-    const imposto = calcularImpostoRenda(lucroBruto, duracao)
-    return montanteTotal - imposto
-}
-
-function calcularRendimento() {
-    const inicial = parseFloat(document.getElementById('inicial').value) || 0
-    const mensal = parseFloat(document.getElementById('mensal').value) || 0
-    let duracao = parseFloat(document.getElementById('duracao').value) || 0
-    const unidade = document.getElementById('periodo-unidade').value
-
-    if (unidade === "anos") {
-        duracao *= 12
-    }
-
-    const selic = parseFloat(document.getElementById('selic').value) / 100 / 12
-    const cdi = parseFloat(document.getElementById('cdi').value) / 100 / 12
-    const tr = parseFloat(document.getElementById('tr').value) / 100
-    const ipca = parseFloat(document.getElementById('ipca').value) / 100;
-    const poupanca = parseFloat(document.getElementById('poupanca').value) / 100
-    const rentabilidadeCDB = parseFloat(document.getElementById('CDB').value) / 100 / 12 * cdi * 10
-    const rentabilidadeFundoDI = (parseFloat(document.getElementById('rentDi').value) / 100) * cdi
-    const taxaAdmFundoDI = parseFloat(document.getElementById('admDi').value) / 100
-    const tesouroIpca = parseFloat(document.getElementById('tesouro-ipca').value) / 100
-    const rendimentoTesouroIpca = inicial * Math.pow(1 + (tesouroIpca + ipca + tr), duracao) + mensal * ((Math.pow(1 + (tesouroIpca + ipca + tr), duracao) - 1) / (tesouroIpca + ipca + tr))
-    const taxaPrefixada = parseFloat(document.getElementById('tesouroPrefix').value) / 100
-    const rendimentoTesouroPrefixado = calcularTesouroPrefixado(inicial, mensal, duracao, taxaPrefixada)
-    
-    function calcularComImposto(taxa, taxaAdmin = 0) {
-        const taxaEfetiva = taxa - taxaAdmin
-        const montante = inicial * Math.pow(1 + taxaEfetiva, duracao) + mensal * ((Math.pow(1 + taxaEfetiva, duracao) - 1) / taxaEfetiva)
-        const lucroBruto = montante - (inicial + mensal * duracao)
-        const imposto = calcularImpostoRenda(lucroBruto, duracao)
-        return montante - imposto
-    }
-
-    const rendimentoSelic = calcularComImposto(selic)
-    const rendimentoCdi = calcularComImposto(cdi)
-    const rendimentoPoupanca = inicial * Math.pow(1 + poupanca, duracao) + mensal * ((Math.pow(1 + poupanca, duracao) - 1) / poupanca)
-    const rendimentoCDBCalc = calcularComImposto(rentabilidadeCDB)
-    const rendimentoFundoDICalc = calcularComImposto(rentabilidadeFundoDI, taxaAdmFundoDI)
-
-    grafico.data.datasets[0].data = [
-        rendimentoSelic,
-        rendimentoTesouroIpca,
-        rendimentoPoupanca,
-        rendimentoCDBCalc,
-        rendimentoFundoDICalc,
-        rendimentoTesouroPrefixado
-    ];
-
-    grafico.data.labels = [
-        'Tesouro Selic',
-        'Tesouro IPCA',
-        'Poupança',
-        'Rentabilidade CDB',
-        'Rentabilidade Fundo DI',
-        'Tesouro Prefixado'
-    ];
-
-    grafico.update();
-
-    document.getElementById('resultado-selic').textContent = `Rendimento Selic: ${formatarValor(rendimentoSelic)}`
-    document.getElementById('resultado-tesouro-ipca').textContent = `Rendimento Tesouro IPCA: ${formatarValor(rendimentoTesouroIpca)}`
-    document.getElementById('resultado-poupanca').textContent = `Rendimento na poupança: ${formatarValor(rendimentoPoupanca)}`
-    document.getElementById('resultado-cdb').textContent = `Rendimento CDB: ${formatarValor(rendimentoCDBCalc)}`
-    document.getElementById('resultado-fundo-di').textContent = `Rendimento Fundo DI: ${formatarValor(rendimentoFundoDICalc)}`
-    document.getElementById('resultado-tesouro-prefixado').textContent = `Rendimento Tesouro Prefixado: ${formatarValor(rendimentoTesouroPrefixado)}`
-}
-
-
-        window.onload = function() {
-            buscarTaxas()
-            inicializarGrafico()
-}
-                    </script>
-                </div>
-            </div>
+    <div class="resultado">
+        <canvas id="graficoRendimento" style="width: 100%; height:100%"></canvas>
+    </div>
+</div>
         </div>
     </div>
     </main>
