@@ -1,13 +1,46 @@
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $PrimaryGreen;
-    width: 100%;
-    height: 10vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    color: white;
-    font-size: 100%;
+.app-header {
+  width: 100%;
+  border-bottom: 1px solid $border-subtle;
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 0.85rem 1rem;
+}
+
+.header-content {
+  width: 100%;
+  max-width: 1560px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+
+  h1 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+}
+
+.logo-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: $radius-xl;
+  background: rgba(16, 185, 129, 0.15);
+  color: $color-emerald;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }

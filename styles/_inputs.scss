@@ -1,130 +1,169 @@
-.input-grafico {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 1.5em;
-  }
-  
-  .inputs {
-    padding: 1.5vh;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.5vh;
-    width: 100%;
-    box-sizing: border-box;
+.form-group {
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 
-  .input-item {
-    flex: 1 1 45%;
-    min-width: 200px;
-  
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-item label {
+  label {
+    display: block;
+    font-size: 0.75rem;
     font-weight: 500;
-    margin-bottom: 0.25rem;
+    color: $text-secondary;
+    margin-bottom: 0.35rem;
+  }
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .prefix {
+    position: absolute;
+    left: 0.85rem;
+    color: $text-muted;
+    font-weight: 600;
+    font-size: 0.85rem;
+    pointer-events: none;
   }
 
-  .inputs-1 {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5vh;
+  input {
     width: 100%;
-  
-    .menor {
-      flex: 1 1 30%;
-    }
-  
-    .maior {
-      flex: 2 1 40%;
-    }
-  }
-  
-  #aplicação{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-        height: 40px;
-        box-sizing: border-box;
-  }
-
-  .inputs-2 {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5vh;
-    width: 100%;
-  }
-  
-  .item-input-2 {
-    flex: 1 1 48%;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-item input,
-  .input-item select {
-    padding: 0.5rem;
+    background: $bg-input;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-xl;
+    color: #fff;
     font-size: 1rem;
-    border: 2px solid #000;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
+    font-weight: 600;
+    padding: 0.6rem 0.85rem 0.6rem 2.5rem;
+    outline: none;
+    transition: $transition-smooth;
+
+    &:focus {
+      border-color: $color-emerald;
+      box-shadow: 0 0 0 1px $color-emerald;
+    }
   }
-  
-  .inputs-2 {  
-    input {
-        width: 100%;
-        height: 40px;
-        font-size: 1rem;
-        padding: 8px;
-        border: 2px solid;
-        box-sizing: border-box;
-      }
+}
+
+.periodo-group {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    background: $bg-input;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-xl;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.6rem 0.85rem;
+    outline: none;
+    transition: $transition-smooth;
+
+    &:focus {
+      border-color: $color-emerald;
+      box-shadow: 0 0 0 1px $color-emerald;
+    }
   }
 
-  .inputs-1 {
-    input {
-        width: 100%;
-        height: 40px;
-        font-size: 1rem;
-        padding: 8px;
-        border: 2px solid;
-        box-sizing: border-box;
+  select {
+    width: 6.5rem;
+    flex-shrink: 0;
+    background: $bg-input;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-xl;
+    color: $text-primary;
+    font-size: 0.875rem;
+    padding: 0.6rem 0.75rem;
+    outline: none;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &:focus {
+      border-color: $color-emerald;
     }
   }
-  
-  .inputs-3 {
+}
+
+.accordion-rates {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(51, 65, 85, 0.4);
+
+  summary {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: $text-secondary;
+    cursor: pointer;
+    user-select: none;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5vh;
-  }
-  
-  .inputs-3-item {
-    flex: 1 1 48%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  
-    input {
-      width: 100%;
-      height: 40px;
-      font-size: 1rem;
-      padding: 8px;
-      border: 2px solid;
-      box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+    transition: $transition-smooth;
+
+    &:hover {
+      color: #fff;
     }
-  
   }
-  
-  #CDB-item {
-    display: flex;
-    flex-direction: column;
+}
+
+.summary-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  i {
+    color: $color-emerald;
   }
-  
+}
+
+.accordion-content {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.rate-section-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $color-emerald-light;
+  margin: 0.4rem 0 0.15rem 0;
+}
+
+.rate-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: $text-secondary;
+
+  input {
+    width: 5.25rem;
+    background: $bg-input;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-lg;
+    color: $text-primary;
+    text-align: right;
+    padding: 0.25rem 0.5rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+    outline: none;
+
+    &:focus {
+      border-color: $color-emerald;
+    }
+  }
+}
+
+.rate-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

@@ -1,271 +1,252 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de investimentos</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <title>Simulador de Investimentos | Renda Fixa</title>
+    <meta name="description" content="Simulação rápida e precisa de renda fixa com taxas oficiais do Banco Central.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300&family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/style.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body onload="buscarTaxas()">
-    <header><h1 style="padding: 30px 1px;">Calculadora de investimentos</h1></header>
-    <main>
-    <div class="container">
-        <div class="texto"><p>Insira os valores</p></div>
-            <div class="input-grafico">
-                <div class="inputs">
-                    <div class="inputs-1">
-                        <div class="item-input-1 menor">
-                          <label for="inicial">Investimento inicial</label>
-                          <input type="number" id="inicial" name="inicial" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                        </div>
-                        <div class="item-input-1 menor">
-                          <label for="mensal">Aportes mensais</label>
-                          <input type="number" id="mensal" name="mensal" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                        </div>
-                        <div class="item-input-1 maior">
-                          <label for="duracao">Período de aplicação</label>
-                          <div id="aplicação">
-                            <input type="number" id="duracao" name="duracao" onclick="this.select()" min="0" value="0" oninput="calcularRendimento()">
-                            <select id="periodo-unidade" name="periodo-unidade" onchange="calcularRendimento()">
-                              <option value="meses">Meses</option>
-                              <option value="anos">Anos</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    <div class="inputs-2">
-                        <div class="item-input-2"><label for="selic" class="selic-label">Selic efetiva (a.a.) <span class="data-selic">ℹ️</span></label>
-                            <input type="number" id="selic" name="selic" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                        </div>
-                        <div class="item-input-2"><label for="cdi">CDI (a.a.) <span class="data-cdi">ℹ️</span></label>
-                            <input type="number" id="cdi" name="cdi" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                        </div class="item-input-2">
-                        <div class="item-input-2"><label for="ipca">IPCA (a.m.) <span class="data-ipca">ℹ️</span></label>
-                            <input type="number" id="ipca" name="ipca" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                            <span id="data-ipca" class="data-atualizacao"></span>
-                        </div>
-                        <div class="item-input-2"><label for="tr">TR (a.m.) <span class="data-tr">ℹ️</span></label>
-                            <input type="number" id="tr" name="tr" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()">
-                        </div>
-                    </div>
-                    <div class="inputs-3">
-                        <div class="inputs-3-item"><label for="poupanca">Rentabilidade da Poupança (a.m.) <span class="data-poupanca">ℹ️</span></label>
-                            <input type="number" id="poupanca" name="poupanca" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()"></div>
-                        <div class="inputs-3-item" id="CDB-item"><label for="CDB">Rentabilidade do CDB(% do CDI)</label>
-                            <input type="number" id="CDB" name="CDB" onclick="this.select()" value="100" min="0" step="1" oninput="calcularRendimento()"></div>
-                        <div class="inputs-3-item"><label for="tesouro-ipca">Juro real do Tesouro IPCA+(a.m.) <span class="data-tesouroIpca">ℹ️</span></label>
-                            <input type="number" id="tesouro-ipca" name="tesouro-ipca" onclick="this.select()" value="0.00" min="0" step="1" oninput="calcularRendimento()"></div>
-                        <div class="inputs-3-item"><label for="tesourDrefix">Juro nominal do Tesouro Prefixado (a.a.)</label>
-                            <input type="number" id="tesouroPrefix" name="tesouroPrefix" onclick="this.select()" value="10.50" min="0" step="1" oninput="calcularRendimento()"></div>
-                        <div class="inputs-3-item"><label for="admDi">Taxa de administração do fundo DI(a.a.)</label>
-                            <input type="number" id="admDi" name="admDi" onclick="this.select()" value="0.25" min="0" step="0.25" oninput="calcularRendimento()"></div>
-                        <div class="inputs-3-item"><label for="rentDi">Rentabilidade do Fundo DI(% do CDI)</label>
-                            <input type="number" id="rentDi" name="rentDi" onclick="this.select()" value="100" min="0" step="1" oninput="calcularRendimento()"></div>
-                    </div>
-                    <div><p>Estes são os parâmetros padrões aplicados na sua simulação. Você pode ajustá-los e recalcular para uma simulação mais avançada. (Todos os valores são fornecidos pela API do Banco Central do Brasil)</p></div>
+
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo-box">
+                <div class="logo-icon">
+                    <i data-lucide="trending-up"></i>
                 </div>
-                <div class="grafico">
-                    <div class="resultado">
-                        <canvas id="graficoRendimento" style="width: 100%; height: 100%;"></canvas>
-                    <script>
-let grafico;
-async function buscarTaxas() {
-    try {
-        const urls = {
-            selic: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033",
-            cdi: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033",
-            ipca: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11426/dados?formato=json",
-            tesouroIpca: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json",
-            tr: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.226/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033",
-            poupanca: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.195/dados?formato=json&dataInicial=01/01/2024&dataFinal=31/12/2033"
-        };
-
-        async function fetchTaxa(url) {
-    const response = await fetch(url)
-    const data = await response.json()
-    const valor = data[data.length - 1]?.valor
-    const dataAtualizacao = data[data.length - 1]?.data
-    return { valor: parseFloat(valor), data: dataAtualizacao }
-}
-
-        const selic = await fetchTaxa(urls.selic)
-        document.getElementById('selic').value = isNaN(selic.valor) ? "N/A" : selic.valor.toFixed(2)
-        document.querySelector('.data-selic').title = `Atualizado em: ${selic.data}`
-
-        const cdi = await fetchTaxa(urls.cdi)
-        document.getElementById('cdi').value = isNaN(cdi.valor) ? "N/A" : cdi.valor.toFixed(2)
-        document.querySelector('.data-cdi').title = `Atualizado em: ${cdi.data}`
-
-        const ipca = await fetchTaxa(urls.ipca)
-        document.getElementById('ipca').value = isNaN(ipca.valor) ? "N/A" : ipca.valor.toFixed(2)
-        document.querySelector('.data-ipca').title = `Atualizado em: ${ipca.data}`
-
-        const tesouroIpca = await fetchTaxa(urls.tesouroIpca)
-        document.getElementById('tesouro-ipca').value = isNaN(tesouroIpca.valor) ? "N/A" : tesouroIpca.valor.toFixed(2)
-        document.querySelector('.data-tesouroIpca').title = `Atualizado em: ${tesouroIpca.data}`
-
-        const tr = await fetchTaxa(urls.tr)
-        document.getElementById('tr').value = isNaN(tr.valor) ? "N/A" : tr.valor.toFixed(4)
-        document.querySelector('.data-tr').title = `Atualizado em: ${tr.data}`
-
-        const poupanca = await fetchTaxa(urls.poupanca)
-        document.getElementById('poupanca').value = isNaN(poupanca.valor) ? "N/A" : poupanca.valor.toFixed(4)
-        document.querySelector('.data-poupanca').title = `Atualizado em: ${poupanca.data}`
-    } catch (error) {
-        console.error("Erro ao buscar as taxas de juros:", error)
-    }
-}
-
-function inicializarGrafico() {
-    const ctx = document.getElementById('graficoRendimento').getContext('2d')
-grafico = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Tesouro Selic','Tesouro IPCA','Poupança','Rentabilidade CDB','Rentabilidade Fundo Di', 'Tesouro prefixado'],
-        datasets: [{
-            label: 'Rendimento Estimado (R$)',
-            data: [0, 0, 0, 0, 0, 0],
-            borderWidth: 1,
-            backgroundColor: '#4FA153',
-            borderColor: '#4FA153'
-        }]
-    },
-    options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                beginAtZero: true
-            },
-            y: {
-                type: 'category'
-            }
-        },
-        plugins: {
-            datalabels: {
-                anchor: 'center',
-                align: 'end',
-                color: '#000',
-                formatter: function formatarValor(valor) {
-    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-}
-                
-            }
-        }
-    },
-    plugins: [ChartDataLabels]
-})
-}
-
-function calcularImpostoRenda(lucro, meses) {
-        let taxaIR;
-        if (meses <= 6) {
-            taxaIR = 0.225;
-        } else if (meses <= 12) {
-            taxaIR = 0.2
-        } else if (meses <= 24) {
-            taxaIR = 0.175
-        } else {
-            taxaIR = 0.15
-        }
-        return lucro * taxaIR
-    }
-
-    function calcularTesouroPrefixado(inicial, mensal, duracao, taxaPrefixada) {
-    const taxaMensal = Math.pow(1 + taxaPrefixada, 1 / 12) - 1
-
-    const montanteInicial = inicial * Math.pow(1 + taxaMensal, duracao)
-    const montanteAportes = mensal * ((Math.pow(1 + taxaMensal, duracao) - 1) / taxaMensal)
-
-    const montanteTotal = montanteInicial + montanteAportes
-    const lucroBruto = montanteTotal - (inicial + mensal * duracao)
-
-    const imposto = calcularImpostoRenda(lucroBruto, duracao)
-    return montanteTotal - imposto
-}
-
-function calcularRendimento() {
-    const inicial = parseFloat(document.getElementById('inicial').value) || 0
-    const mensal = parseFloat(document.getElementById('mensal').value) || 0
-    let duracao = parseFloat(document.getElementById('duracao').value) || 0
-    const unidade = document.getElementById('periodo-unidade').value
-
-    if (unidade === "anos") {
-        duracao *= 12
-    }
-
-    const selic = parseFloat(document.getElementById('selic').value) / 100 / 12
-    const cdi = parseFloat(document.getElementById('cdi').value) / 100 / 12
-    const tr = parseFloat(document.getElementById('tr').value) / 100
-    const ipca = parseFloat(document.getElementById('ipca').value) / 100;
-    const poupanca = parseFloat(document.getElementById('poupanca').value) / 100
-    const rentabilidadeCDB = parseFloat(document.getElementById('CDB').value) / 100 / 12 * cdi * 10
-    const rentabilidadeFundoDI = (parseFloat(document.getElementById('rentDi').value) / 100) * cdi
-    const taxaAdmFundoDI = parseFloat(document.getElementById('admDi').value) / 100
-    const tesouroIpca = parseFloat(document.getElementById('tesouro-ipca').value) / 100
-    const rendimentoTesouroIpca = inicial * Math.pow(1 + (tesouroIpca + ipca + tr), duracao) + mensal * ((Math.pow(1 + (tesouroIpca + ipca + tr), duracao) - 1) / (tesouroIpca + ipca + tr))
-    const taxaPrefixada = parseFloat(document.getElementById('tesouroPrefix').value) / 100
-    const rendimentoTesouroPrefixado = calcularTesouroPrefixado(inicial, mensal, duracao, taxaPrefixada)
-    
-    function calcularComImposto(taxa, taxaAdmin = 0) {
-        const taxaEfetiva = taxa - taxaAdmin
-        const montante = inicial * Math.pow(1 + taxaEfetiva, duracao) + mensal * ((Math.pow(1 + taxaEfetiva, duracao) - 1) / taxaEfetiva)
-        const lucroBruto = montante - (inicial + mensal * duracao)
-        const imposto = calcularImpostoRenda(lucroBruto, duracao)
-        return montante - imposto
-    }
-
-    const rendimentoSelic = calcularComImposto(selic)
-    const rendimentoCdi = calcularComImposto(cdi)
-    const rendimentoPoupanca = inicial * Math.pow(1 + poupanca, duracao) + mensal * ((Math.pow(1 + poupanca, duracao) - 1) / poupanca)
-    const rendimentoCDBCalc = calcularComImposto(rentabilidadeCDB)
-    const rendimentoFundoDICalc = calcularComImposto(rentabilidadeFundoDI, taxaAdmFundoDI)
-
-    grafico.data.datasets[0].data = [
-        rendimentoSelic,
-        rendimentoTesouroIpca,
-        rendimentoPoupanca,
-        rendimentoCDBCalc,
-        rendimentoFundoDICalc,
-        rendimentoTesouroPrefixado
-    ];
-
-    grafico.data.labels = [
-        'Tesouro Selic',
-        'Tesouro IPCA',
-        'Poupança',
-        'Rentabilidade CDB',
-        'Rentabilidade Fundo DI',
-        'Tesouro Prefixado'
-    ];
-
-    grafico.update();
-
-    document.getElementById('resultado-selic').textContent = `Rendimento Selic: ${formatarValor(rendimentoSelic)}`
-    document.getElementById('resultado-tesouro-ipca').textContent = `Rendimento Tesouro IPCA: ${formatarValor(rendimentoTesouroIpca)}`
-    document.getElementById('resultado-poupanca').textContent = `Rendimento na poupança: ${formatarValor(rendimentoPoupanca)}`
-    document.getElementById('resultado-cdb').textContent = `Rendimento CDB: ${formatarValor(rendimentoCDBCalc)}`
-    document.getElementById('resultado-fundo-di').textContent = `Rendimento Fundo DI: ${formatarValor(rendimentoFundoDICalc)}`
-    document.getElementById('resultado-tesouro-prefixado').textContent = `Rendimento Tesouro Prefixado: ${formatarValor(rendimentoTesouroPrefixado)}`
-}
-
-
-        window.onload = function() {
-            buscarTaxas()
-            inicializarGrafico()
-}
-                    </script>
-                </div>
+                <h1>Simulador de Investimentos</h1>
             </div>
         </div>
-    </div>
+    </header>
+
+    <main class="app-container">
+        <div class="layout-grid">
+
+            <div class="col-left">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i data-lucide="calculator"></i>
+                            Quanto deseja investir?
+                        </h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor-inicial">Investimento Inicial</label>
+                        <div class="input-wrapper">
+                            <span class="prefix">R$</span>
+                            <input type="number" id="valor-inicial" value="5000" min="0" step="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor-mensal">Aporte Todo Mês</label>
+                        <div class="input-wrapper">
+                            <span class="prefix">R$</span>
+                            <input type="number" id="valor-mensal" value="500" min="0" step="50">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor-periodo">Tempo da Aplicação</label>
+                        <div class="periodo-group">
+                            <input type="number" id="valor-periodo" value="2" min="1" step="1">
+                            <select id="unidade-periodo">
+                                <option value="anos" selected>Anos</option>
+                                <option value="meses">Meses</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <details class="accordion-rates">
+                        <summary>
+                            <span class="summary-label">
+                                <i data-lucide="sliders"></i>
+                                Taxas de mercado & Banco Central
+                            </span>
+                            <i data-lucide="chevron-down"></i>
+                        </summary>
+                        <div class="accordion-content">
+                            <div class="rate-section-title">Oficiais do Banco Central:</div>
+
+                            <div class="rate-row">
+                                <div class="rate-label-wrap">
+                                    <label for="taxa-selic">Taxa Selic (a.a.):</label>
+                                    <span class="info-tooltip">
+                                        <i data-lucide="info"></i>
+                                        <span id="tip-selic" class="tooltip-text">Atualizado pelo BCB em: --</span>
+                                    </span>
+                                </div>
+                                <input type="number" id="taxa-selic" value="13.75" step="0.25">
+                            </div>
+
+                            <div class="rate-row">
+                                <div class="rate-label-wrap">
+                                    <label for="taxa-cdi">Taxa CDI (a.a.):</label>
+                                    <span class="info-tooltip">
+                                        <i data-lucide="info"></i>
+                                        <span id="tip-cdi" class="tooltip-text">Atualizado pelo BCB em: --</span>
+                                    </span>
+                                </div>
+                                <input type="number" id="taxa-cdi" value="13.65" step="0.25">
+                            </div>
+
+                            <div class="rate-row">
+                                <div class="rate-label-wrap">
+                                    <label for="taxa-ipca">IPCA 12m (a.a.):</label>
+                                    <span class="info-tooltip">
+                                        <i data-lucide="info"></i>
+                                        <span id="tip-ipca" class="tooltip-text">Atualizado pelo BCB em: --</span>
+                                    </span>
+                                </div>
+                                <input type="number" id="taxa-ipca" value="4.22" step="0.1">
+                            </div>
+
+                            <div class="rate-row">
+                                <div class="rate-label-wrap">
+                                    <label for="taxa-poupanca">Poupança (a.m.):</label>
+                                    <span class="info-tooltip">
+                                        <i data-lucide="info"></i>
+                                        <span id="tip-poupanca" class="tooltip-text">Atualizado pelo BCB em: --</span>
+                                    </span>
+                                </div>
+                                <input type="number" id="taxa-poupanca" value="0.6339" step="0.01">
+                            </div>
+
+                            <div class="rate-row">
+                                <div class="rate-label-wrap">
+                                    <label for="taxa-tr">TR Mensal (a.m.):</label>
+                                    <span class="info-tooltip">
+                                        <i data-lucide="info"></i>
+                                        <span id="tip-tr" class="tooltip-text">Atualizado pelo BCB em: --</span>
+                                    </span>
+                                </div>
+                                <input type="number" id="taxa-tr" value="0.1332" step="0.01">
+                            </div>
+
+                            <div class="rate-section-title">Parâmetros dos Produtos:</div>
+
+                            <div class="rate-row">
+                                <label for="param-cdb">Rentabilidade CDB (% CDI):</label>
+                                <input type="number" id="param-cdb" value="100">
+                            </div>
+                            <div class="rate-row">
+                                <label for="param-ipca">Juro Real Tesouro IPCA (%):</label>
+                                <input type="number" id="param-ipca" value="6.5" step="0.25">
+                            </div>
+                            <div class="rate-row">
+                                <label for="param-lci">LCI / LCA (% CDI - Isento):</label>
+                                <input type="number" id="param-lci" value="90">
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i data-lucide="award"></i>
+                            Ranking das Aplicações
+                        </h2>
+                    </div>
+                    <div id="lista-investimentos" class="ranking-list">
+                    </div>
+                </div>
+
+                <div class="methodology-box">
+                    <i data-lucide="shield-check"></i>
+                    <span>Cálculos líquidos com Imposto de Renda regressivo (15% a 22,5%) e isenção de Poupança e
+                        LCI/LCA já deduzidos.</span>
+                </div>
+
+            </div>
+
+            <div class="col-right">
+
+                <div class="hero-highlight">
+                    <div class="highlight-content">
+                        <div class="left-side">
+                            <span class="top-tag">Maior Retorno Líquido</span>
+                            <h2 id="destaque-melhor-nome">Tesouro IPCA+</h2>
+                            <span id="destaque-melhor-lucro" class="profit-highlight">+R$ 0,00 (+0,00%)</span>
+                        </div>
+
+                        <div class="right-side">
+                            <span class="final-label">Montante Final</span>
+                            <span id="destaque-melhor-total" class="final-value">R$ 0,00</span>
+                            <span class="invested-sub">
+                                Aporte total: <strong id="destaque-total-investido">R$ 0,00</strong>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i data-lucide="bar-chart-2"></i>
+                            Comparativo Visual
+                        </h2>
+                        <div class="chart-controls">
+                            <button id="btn-grafico-barras" class="active">Barras</button>
+                            <button id="btn-grafico-linhas">Evolução</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper">
+                        <canvas id="graficoCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i data-lucide="table"></i>
+                            Detalhamento Financeiro Completo
+                        </h2>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Aplicação</th>
+                                    <th>Taxa</th>
+                                    <th>Total Investido</th>
+                                    <th>Lucro Líquido</th>
+                                    <th>Valor Líquido</th>
+                                    <th>Imposto IR</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-detalhada-corpo">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/calculos.js"></script>
+    <script src="js/grafico.js"></script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>

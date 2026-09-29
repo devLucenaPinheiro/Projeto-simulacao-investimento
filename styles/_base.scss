@@ -1,0 +1,148 @@
+:root {
+  --bg-dark: #{$bg-dark};
+  --bg-card: #{$bg-card};
+  --bg-input: #{$bg-input};
+  
+  --border-subtle: #{$border-subtle};
+  --border-hover: #{$border-hover};
+
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+  --text-muted: #{$text-muted};
+
+  --color-emerald: #{$color-emerald};
+  --color-emerald-light: #{$color-emerald-light};
+
+  --radius-2xl: #{$radius-2xl};
+  --radius-xl: #{$radius-xl};
+  --radius-lg: #{$radius-lg};
+  --shadow-lg: #{$shadow-lg};
+  --transition-smooth: #{$transition-smooth};
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: $font-family;
+  background: radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+              radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+              linear-gradient(135deg, #020617 0%, #0b1120 50%, #020617 100%);
+  color: $text-primary;
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $border-hover;
+  border-radius: 9999px;
+  
+  &:hover {
+    background: $text-muted;
+  }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.info-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  color: $text-muted;
+  margin-left: 0.35rem;
+  transition: $transition-smooth;
+  vertical-align: middle;
+
+  i {
+    width: 0.8rem;
+    height: 0.8rem;
+    stroke-width: 2.25;
+    pointer-events: none;
+  }
+
+  &:hover {
+    color: $color-emerald-light;
+    z-index: 100;
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #0f172a;
+    color: #f8fafc;
+    border: 1px solid #334155;
+    border-radius: $radius-lg;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    font-family: $font-family;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: #334155 transparent transparent transparent;
+    }
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.flex-items {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.flex-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}

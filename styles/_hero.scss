@@ -1,0 +1,158 @@
+.hero-highlight {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 78, 59, 0.25) 50%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: $radius-2xl;
+  padding: 1.25rem 1.5rem;
+  box-shadow: $shadow-lg;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      60deg,
+      transparent 35%,
+      rgba(52, 211, 153, 0.22) 50%,
+      transparent 65%
+    );
+    transform: translateX(-100%);
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &.glow-anim::before {
+    animation: sweepShimmer 1.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  &.glow-anim {
+    animation: heroGlowPulse 1.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+}
+
+.glow-text-anim {
+  display: inline-block;
+  animation: textGlowPulse 1.6s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: left center;
+}
+
+@keyframes textGlowPulse {
+  0% {
+    color: #fff;
+    text-shadow: 0 0 0 rgba(52, 211, 153, 0);
+  }
+  35% {
+    color: #a7f3d0;
+    text-shadow: 0 0 14px rgba(52, 211, 153, 0.95), 0 0 28px rgba(16, 185, 129, 0.8), 0 0 45px rgba(5, 150, 105, 0.6);
+  }
+  100% {
+    color: #fff;
+    text-shadow: 0 0 0 rgba(52, 211, 153, 0);
+  }
+}
+
+@keyframes heroGlowPulse {
+  0% {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+  35% {
+    border-color: #34d399;
+    box-shadow: 0 0 35px 5px rgba(16, 185, 129, 0.45), 0 0 70px 10px rgba(16, 185, 129, 0.2);
+  }
+  100% {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: $shadow-lg;
+  }
+}
+
+@keyframes sweepShimmer {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.highlight-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .left-side {
+    .top-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: $color-emerald-light;
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .profit-highlight {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: $color-emerald-light;
+      margin-top: 0.15rem;
+      display: block;
+    }
+  }
+
+  .right-side {
+    border-top: 1px solid $border-subtle;
+    padding-top: 0.6rem;
+
+    @media (min-width: 640px) {
+      border-top: none;
+      padding-top: 0;
+      text-align: right;
+    }
+
+    .final-label {
+      font-size: 0.7rem;
+      color: $text-secondary;
+      display: block;
+    }
+
+    .final-value {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #fff;
+      display: block;
+      letter-spacing: -0.02em;
+    }
+
+    .invested-sub {
+      font-size: 0.75rem;
+      color: $text-secondary;
+      display: block;
+
+      strong {
+        color: $text-primary;
+      }
+    }
+  }
+}

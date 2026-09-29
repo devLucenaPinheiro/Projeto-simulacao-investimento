@@ -1,0 +1,185 @@
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.ranking-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-xl;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  transition: $transition-smooth;
+
+  &:hover,
+  &:focus-within {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: $border-hover;
+    transform: translateY(-1px);
+    z-index: 50;
+  }
+
+  &.champion {
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.3) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 4px 15px -3px rgba(16, 185, 129, 0.2);
+
+    .name-row h4 {
+      color: #ecfdf5;
+      text-shadow: 0 0 10px rgba(52, 211, 153, 0.55);
+    }
+  }
+}
+
+.champion-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.2);
+  color: $color-emerald-light;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.card-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  overflow: visible;
+}
+
+.color-indicator {
+  width: 0.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.name-group {
+  overflow: visible;
+  min-width: 0;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+
+  h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    min-width: 0;
+  }
+}
+
+.tax-exempt {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  background: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rate-label {
+  font-size: 0.7rem;
+  color: $text-secondary;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@media (min-width: 640px) {
+  .ranking-card .info-tooltip .tooltip-text {
+    bottom: auto;
+    top: 50%;
+    left: calc(100% + 8px);
+    transform: translateY(-50%) translateX(-4px);
+
+    &::after {
+      top: 50%;
+      left: auto;
+      right: 100%;
+      transform: translateY(-50%);
+      border-width: 5px;
+      border-color: transparent #334155 transparent transparent;
+    }
+  }
+
+  .ranking-card .info-tooltip:hover .tooltip-text {
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .ranking-card .info-tooltip .tooltip-text {
+    bottom: calc(100% + 8px);
+    left: 0;
+    transform: translateY(4px);
+    white-space: normal;
+    max-width: 220px;
+
+    &::after {
+      left: 12px;
+      transform: none;
+    }
+  }
+
+  .ranking-card .info-tooltip:hover .tooltip-text {
+    transform: translateY(0);
+  }
+}
+
+.card-values {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.net-amount {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+
+  &.champion-text {
+    color: $color-emerald-light;
+  }
+}
+
+.profit-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: $color-emerald;
+}
+
+.methodology-box {
+  padding: 0.85rem 1rem;
+  border-radius: $radius-xl;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(30, 41, 59, 0.7);
+  font-size: 0.7rem;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  i {
+    color: $color-emerald;
+    flex-shrink: 0;
+  }
+}

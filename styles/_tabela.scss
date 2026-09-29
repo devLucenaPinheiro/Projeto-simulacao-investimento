@@ -1,0 +1,120 @@
+.table-card {
+  min-width: 0;
+  width: 100%;
+  padding: 1.25rem 1.15rem;
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+
+    @media (min-width: 1024px) {
+      overflow-x: visible;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.74rem;
+
+    tr {
+      position: relative;
+
+      &:hover {
+        z-index: 20;
+      }
+    }
+
+    th {
+      padding: 0.5rem 0.5rem;
+      color: $text-secondary;
+      border-bottom: 1px solid $border-subtle;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: left;
+
+      &:first-child {
+        padding-left: 0.25rem;
+      }
+
+      &:last-child {
+        padding-right: 0.25rem;
+      }
+
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6) {
+        text-align: right;
+      }
+    }
+
+    td {
+      padding: 0.55rem 0.5rem;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+      color: $text-primary;
+      white-space: nowrap;
+
+      &:first-child {
+        padding-left: 0.25rem;
+      }
+
+      &:last-child {
+        padding-right: 0.25rem;
+      }
+
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6) {
+        text-align: right;
+      }
+
+      &.profit-cell {
+        color: $color-emerald-light;
+        font-weight: 600;
+        font-family: monospace;
+        white-space: nowrap;
+
+        .profit-pct {
+          font-size: 0.7rem;
+          color: $color-emerald;
+          opacity: 0.85;
+          margin-left: 0.2rem;
+        }
+      }
+
+      &.highlight-cell {
+        color: $color-emerald-light;
+        font-weight: 700;
+      }
+
+      &.mono-cell {
+        font-family: monospace;
+        color: $text-secondary;
+      }
+
+      .info-tooltip .tooltip-text {
+        bottom: auto;
+        top: 50%;
+        left: calc(100% + 8px);
+        transform: translateY(-50%) translateX(-4px);
+
+        &::after {
+          top: 50%;
+          left: auto;
+          right: 100%;
+          transform: translateY(-50%);
+          border-width: 5px;
+          border-color: transparent #334155 transparent transparent;
+        }
+      }
+
+      .info-tooltip:hover .tooltip-text {
+        transform: translateY(-50%) translateX(0);
+      }
+    }
+  }
+}

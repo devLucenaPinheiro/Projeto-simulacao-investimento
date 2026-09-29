@@ -1,16 +1,37 @@
-.grafico {
-    width: 40%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1.5vh;
+.chart-controls {
+  display: flex;
+  background: $bg-input;
+  padding: 0.2rem;
+  border-radius: $radius-lg;
+  border: 1px solid $border-subtle;
+  gap: 0.25rem;
+
+  button {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 0.35rem;
+    border: none;
+    background: transparent;
+    color: $text-secondary;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &.active {
+      background: rgba(16, 185, 129, 0.2);
+      color: $color-emerald-light;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    &:hover:not(.active) {
+      color: #fff;
+    }
+  }
 }
 
-.resultado{
-    background-color: rgb(248, 248, 248);
-    padding: 20px;
-    width: 100%;
-    max-width: 400px;
-    height: 300px;
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 270px;
 }

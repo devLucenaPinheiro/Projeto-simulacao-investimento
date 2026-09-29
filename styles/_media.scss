@@ -1,55 +1,23 @@
-@media screen and (max-width: 1563px) {
-    .input-grafico{
-        flex-direction: column;
-    }
-    .inputs-1{
-        justify-content: space-between;
-    }
-    .grafico{
-        margin: auto;
-    }
-    .resultado{
-        max-width: 2000px;
-        min-width: 400px;
-    }
+@mixin sm {
+  @media (min-width: 640px) {
+    @content;
+  }
 }
 
-@media screen and (max-width: 895px){
-    .inputs-2{
-        flex-wrap: wrap;
-    }
-
-    .inputs{
-        gap: 3vh;
-    }
-    .item-inputs-2{
-        flex: none;
-    }
+@mixin md {
+  @media (min-width: 768px) {
+    @content;
+  }
 }
 
-@media screen and (max-width: 828px){
-    .inputs-3{
-        flex-direction: column;
-    }
-
+@mixin lg {
+  @media (min-width: 1024px) {
+    @content;
+  }
 }
 
-@media screen and (max-width: 689px){
-    .inputs-1{
-    flex-direction: column;
-    }
+@mixin xl {
+  @media (min-width: 1280px) {
+    @content;
+  }
 }
-
-
-@media screen and (max-width: 500px){
-    h1{
-        text-align: center;
-        font-size: 25px;
-    }
-
-    .selic-label{
-        font-size: 12.5px;
-        margin-bottom: 8px;
-    }
-}
-
