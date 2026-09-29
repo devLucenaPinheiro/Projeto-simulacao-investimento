@@ -8,7 +8,7 @@ Permite simular aportes iniciais e mensais, comparando lado a lado os ativos mai
 
 ## 🚀 Demonstração
 
-- **Acesse online:** [simula-invest.vercel.app](https://simula-invest.vercel.app) *(ou link da sua hospedagem)*
+- **Acesse online:** [simula-invest.vercel.app](https://projeto-simulador-de-investimento.vercel.app/)
 
 ---
 
